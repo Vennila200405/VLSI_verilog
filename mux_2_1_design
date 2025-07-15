@@ -1,0 +1,5 @@
+module mux_2_1(sel,i0,i1,y);
+  input sel,i0,i1;
+  output y;
+  assign y= sel? i1:i0;
+endmodule
