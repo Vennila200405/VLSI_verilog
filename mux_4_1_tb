@@ -1,0 +1,16 @@
+module mux_4_1_tb;
+  reg [1:0]sel;
+  reg i0,i1,i2,i3;
+  wire y;
+  mux_4_1 DUT (sel,i0,i1,i2,i3,y);
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars;
+    $monitor("sel=%b,i0=%b,i1=%b,i2=%b,i3=%b,y=%b",sel,i0,i1,i2,i3);
+    i0=0;i1=1;i2=0;i3=1;
+    sel=2'b00; #10
+    sel=2'b01; #10
+    sel=2'b10; #10
+    sel=2'b11; 
+  end
+endmodule
