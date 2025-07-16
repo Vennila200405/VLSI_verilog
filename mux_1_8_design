@@ -1,0 +1,17 @@
+module mux_8to1_dataflow (
+    input [7:0] i,       // Inputs
+    input [2:0] sel,     // Selector
+    output y             // Output
+);
+
+assign y = (sel == 3'b000) ? i[0] :
+           (sel == 3'b001) ? i[1] :
+           (sel == 3'b010) ? i[2] :
+           (sel == 3'b011) ? i[3] :
+           (sel == 3'b100) ? i[4] :
+           (sel == 3'b101) ? i[5] :
+           (sel == 3'b110) ? i[6] :
+           (sel == 3'b111) ? i[7] : 1'b0;
+
+endmodule
+
