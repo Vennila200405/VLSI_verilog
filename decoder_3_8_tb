@@ -1,0 +1,26 @@
+module decoder_tb;
+  reg [2:0] d;
+  reg E;
+  wire [7:0] y;
+
+  decoder DUT(d, E, y);
+
+  integer i;  
+
+  initial begin
+    $dumpfile("dump.vcd");
+    $dumpvars;
+    $monitor("d = %b, E = %b, y = %b", d, E, y);
+
+    E = 0; #1 d = 3'b111;
+    #1 E = 1;
+
+    
+    for (i = 0; i < 8; i = i + 1) begin
+      #1 d = i;
+    end
+
+    $finish;
+  end
+endmodule
+
