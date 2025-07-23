@@ -1,0 +1,22 @@
+module bit_reversal_tb;
+    reg [7:0] in;
+    wire [7:0] out;
+
+    bit_reversal DUT (
+        .in(in),
+        .out(out)
+    );
+
+    initial begin
+        $monitor("Input = %b | Reversed = %b", in, out);
+
+        in = 8'b00000000; #10;
+        in = 8'b11111111; #10;
+        in = 8'b10101010; #10;
+        in = 8'b11010010; #10;
+        in = 8'b10000001; #10;
+        in = 8'b01100110; #10;
+
+        $finish;
+    end
+endmodule
