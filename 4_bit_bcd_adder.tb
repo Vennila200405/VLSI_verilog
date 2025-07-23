@@ -1,0 +1,26 @@
+module bcd_adder_tb;
+    reg [3:0] A, B;
+    reg Cin;
+    wire [3:0] SUM;
+    wire Cout;
+
+    
+    bcd_adder_dataflow DUT (
+        .A(A),
+        .B(B),
+        .Cin(Cin),
+        .SUM(SUM),
+        .Cout(Cout) );
+
+    initial begin
+ $monitor("A=%b B=%b Cin=%b => SUM=%b Cout=%b", A, B, Cin, SUM, Cout);
+
+        A = 4'd3; B = 4'd4; Cin = 0; #10;
+        A = 4'd7; B = 4'd5; Cin = 0; #10;
+        A = 4'd6; B = 4'd6; Cin = 0; #10;
+        A = 4'd9; B = 4'd9; Cin = 0; #10;
+        A = 4'd9; B = 4'd1; Cin = 1; #10;
+
+        $finish;
+    end
+endmodule
