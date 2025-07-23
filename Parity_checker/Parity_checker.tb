@@ -1,0 +1,20 @@
+module parity_checker_tb;
+    reg [3:0] data_in;
+    reg       parity_bit;
+    wire      even_ok, odd_ok;
+
+    even_parity_checker even_check (.data_in(data_in), .parity_bit(parity_bit), .parity_ok(even_ok));
+    odd_parity_checker  odd_check  (.data_in(data_in), .parity_bit(parity_bit), .parity_ok(odd_ok));
+
+    initial begin
+       $monitor("Data=%b, Parity Bit=%b | Even OK=%b, Odd OK=%b", data_in, parity_bit, even_ok, odd_ok);
+
+        data_in = 4'b0000; parity_bit = 0; #10;  
+        data_in = 4'b0001; parity_bit = 1; #10;  
+        data_in = 4'b0011; parity_bit = 0; #10;  
+        data_in = 4'b1111; parity_bit = 0; #10;  
+        data_in = 4'b1010; parity_bit = 1; #10;  
+
+        $finish;
+    end
+endmodule
