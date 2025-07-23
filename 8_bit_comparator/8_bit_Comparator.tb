@@ -1,0 +1,30 @@
+module comparator_8bit_tb;
+    reg [7:0] A, B;
+    wire lt, eq, gt;
+
+    // Instantiate the DUT (Device Under Test)
+    comparator_8bit DUT (
+        .A(A),
+        .B(B),
+        .lt(lt),
+        .eq(eq),
+        .gt(gt)
+    );
+
+    initial begin
+        $monitor("A = %b (%0d), B = %b (%0d) => LT = %b, EQ = %b, GT = %b", 
+                  A, A, B, B, lt, eq, gt);
+
+        // Test cases
+        A = 8'b00000000; B = 8'b00000000; #10; // A == B
+        A = 8'b00001111; B = 8'b00010000; #10; // A < B
+        A = 8'b11110000; B = 8'b11100000; #10; // A > B
+        A = 8'd255; B = 8'd128; #10;           // A > B
+        A = 8'd100; B = 8'd100; #10;           // A == B
+        A = 8'd50;  B = 8'd150; #10;           // A < B
+        A = 8'd200; B = 8'd250; #10;           // A < B
+        A = 8'd250; B = 8'd200; #10;           // A > B
+
+        $finish;
+    end
+endmodule
