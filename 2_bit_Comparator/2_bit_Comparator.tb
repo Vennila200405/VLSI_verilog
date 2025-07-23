@@ -1,0 +1,28 @@
+module comparator_2bit_tb;
+    reg [1:0] A, B;
+    wire lt, eq, gt;
+
+    // Instantiate the design under test
+    comparator_2bit DUT (
+        .A(A),
+        .B(B),
+        .lt(lt),
+        .eq(eq),
+        .gt(gt)
+    );
+
+    initial begin
+        $monitor("A = %b, B = %b => LT = %b, EQ = %b, GT = %b", A, B, lt, eq, gt);
+
+        // Test all combinations
+        A = 2'b00; B = 2'b00; #10;
+        A = 2'b00; B = 2'b01; #10;
+        A = 2'b01; B = 2'b00; #10;
+        A = 2'b10; B = 2'b10; #10;
+        A = 2'b11; B = 2'b01; #10;
+        A = 2'b10; B = 2'b11; #10;
+        A = 2'b11; B = 2'b11; #10;
+
+        $finish;
+    end
+endmodule
