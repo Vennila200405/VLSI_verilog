@@ -1,0 +1,29 @@
+module tb_parallel_load_register;
+    reg clk, reset, load;
+    reg [7:0] d;
+    wire [7:0] q;
+
+    parallel_load_register uut (
+        .clk(clk),
+        .reset(reset),
+        .load(load),
+        .d(d),
+        .q(q)
+   );
+
+    // Clock generation
+    always #5 
+
+    initial begin
+        $monitor("Time=%0t | Reset=%b Load=%b D=%b => Q=%b", $time, reset, load, d, q);
+
+        clk = 0; reset = 1; load = 0; d = 8'b00000000; #10;
+        reset = 0;
+
+        load = 1; d = 8'b10101010; 
+        load = 0; d = 8'b11111111; #10; 
+        load = 1; d = 8'b00001111; 
+
+        $finish;
+    end
+endmodule
