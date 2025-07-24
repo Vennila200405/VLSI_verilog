@@ -1,0 +1,28 @@
+module tb_barrel_shifter_left;
+    reg [7:0] in;
+    reg [2:0] shift;
+    wire [7:0] out;
+
+    barrel_shifter_left uut (
+        .in(in),
+        .shift(shift),
+        .out(out)
+    );
+
+    initial begin
+     $monitor("in = %b, shift = %d => out = %b", in, shift, out);
+
+      in = 8'b10110011;
+
+      shift = 3'd0; #10;
+      shift = 3'd1; #10;
+      shift = 3'd2; #10;
+      shift = 3'd3; #10;
+      shift = 3'd4; #10;
+      shift = 3'd5; #10;
+      shift = 3'd6; #10;
+      shift = 3'd7; #10;
+
+        $finish;
+end
+endmodule
