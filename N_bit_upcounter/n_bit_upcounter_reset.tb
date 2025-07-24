@@ -1,0 +1,30 @@
+module tb_up_counter;
+    reg clk, reset;
+    wire [7:0] q;
+
+    // Instantiate 8-bit counter
+    up_counter #(8) uut (
+        .clk(clk),
+        .reset(reset),
+        .q(q)
+    );
+
+    // Clock generator
+    always #5 clk = ~clk;
+
+    initial begin
+        $monitor("Time=%0t | Reset=%b | Count=%d (%b)", $time, reset, q, q);
+
+        clk = 0;
+        reset = 1; #10;  
+        reset = 0;       
+
+        #100;            
+
+        reset = 1; #10;  
+        reset = 0; #10;
+
+        #50;
+        $finish;
+    end
+endmodule
