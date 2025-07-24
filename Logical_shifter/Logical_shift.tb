@@ -1,0 +1,26 @@
+module tb_logical_shift;
+ reg [7:0] in;
+ reg [2:0] shift_amt;
+ reg dir;
+ wire [7:0] out;
+
+    logical_shift uut (
+        .in(in),
+        .shift_amt(shift_amt),
+        .dir(dir),
+        .out(out)
+    );
+
+    initial begin
+        $monitor("Input = %b, Shift = %0d, Dir = %s => Output = %b",
+       in, shift_amt, dir ? "Right" : "Left", out);
+
+    in = 8'b00110001; shift_amt = 1; dir = 0; #10; // Left shift
+    in = 8'b00110001; shift_amt = 2; dir = 0; #10; // Left shift
+    in = 8'b10110001; shift_amt = 1; dir = 1; #10; // Right shift
+    in = 8'b10110001; shift_amt = 3; dir = 1; #10; // Right shift
+    in = 8'b11111111; shift_amt = 4; dir = 0; #10; // Left shift
+
+   $finish;
+    end
+endmodule
