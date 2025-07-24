@@ -1,0 +1,18 @@
+module barrel_shifter_left (
+    input  wire [7:0] in,
+    input  wire [2:0] shift,  // 3-bit shift amount
+    output wire [7:0] out
+);
+
+// 8-bit left barrel shift using concatenation
+assign out = (shift == 3'd0) ? in :
+    (shift == 3'd1) ? {in[6:0], 1'b0} :
+    (shift == 3'd2) ? {in[5:0], 2'b00} :
+    (shift == 3'd3) ? {in[4:0], 3'b000} :
+    (shift == 3'd4) ? {in[3:0], 4'b0000} :
+    (shift == 3'd5) ? {in[2:0], 5'b00000} :
+    (shift == 3'd6) ? {in[1:0], 6'b000000} :
+    (shift == 3'd7) ? {in[0],   7'b0000000} :
+    8'b00000000; // default case
+             
+endmodule
