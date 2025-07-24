@@ -1,0 +1,21 @@
+module tb_priority_arbiter_dataflow;
+    reg req0, req1;
+    wire grant0, grant1;
+
+    priority_arbiter_dataflow uut (
+        .req0(req0),
+        .req1(req1),
+        .grant0(grant0),
+        .grant1(grant1)
+    );
+
+    initial begin
+    $monitor("req0=%b, req1=%b => grant0=%b, grant1=%b", req0, req1, grant0, grant1);
+
+req0 = 0; req1 = 0; #10;
+req0 = 0; req1 = 1; #10;
+req0 = 1; req1 = 0; #10;
+req0 = 1; req1 = 1; #10;
+$finish;
+    end
+endmodule
