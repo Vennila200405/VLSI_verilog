@@ -1,0 +1,12 @@
+module n_bit_down_counter #(parameter N = 4) ( input clk,  input reset    input enable,
+  output reg [N-1:0] count
+);
+
+always @(posedge clk or posedge reset) begin
+    if (reset)
+        count <= {N{1'b1}};  // Start from max value
+    else if (enable)
+        count <= count - 1;
+end
+
+endmodule
