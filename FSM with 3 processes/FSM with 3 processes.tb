@@ -1,0 +1,48 @@
+timescale 1ns/1ps
+module fsm_tb;
+
+reg clk;
+reg reset;
+reg x1;
+wire outp;
+fsm uut (
+    .clk(clk),
+    .reset(reset),
+    .x1(x1),
+    .outp(outp)
+);
+always #5 clk = ~clk;
+
+initial begin
+    clk = 0;
+    reset = 1;  
+    x1 = 0;
+    #10;
+    reset = 0;
+    x1 = 1;
+    #10;  
+    #10;  
+    #10;  
+    #10;  
+    x1 = 0;
+    #10;
+    #10;
+    #10;
+    #10;
+    x1 = 1;
+    #10;
+    x1 = 0;
+    #10;
+    x1 = 1;
+    #10;
+
+    // Finish simulation
+    #20;
+    $finish;
+end
+initial begin
+    $monitor("Time = %0t | Reset = %b | x1 = %b | outp = %b | State = %b",
+              $time, reset, x1, outp, uut.state);
+end
+
+endmodule
