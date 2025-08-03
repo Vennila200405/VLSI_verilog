@@ -1,0 +1,46 @@
+module flop_tb;
+
+  reg clk;
+  reg d;
+  reg clr;
+  wire q;
+
+  flop uut (
+    .clk(clk),
+    .d(d),
+    .clr(clr),
+    .q(q)
+  );
+
+  
+  initial begin
+    clk = 0;
+    forever #5 clk = ~clk; 
+  end
+
+  
+  initial begin
+    
+    clr = 0;
+    d = 0;
+
+    
+    #3 clr = 1;  
+    #2 clr = 0;  
+
+    #7 d = 1;  
+    #10 d = 0; 
+
+    #4 clr = 1;
+    #1 clr = 0;
+
+    #10 d = 1;
+
+    #10 $finish;
+  end
+
+  initial begin
+    $monitor("Time = %0t | clk = %b | clr = %b | d = %b | q = %b", $time, clk, clr, d, q);
+  end
+
+endmodule
