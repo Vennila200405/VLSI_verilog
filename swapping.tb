@@ -1,0 +1,51 @@
+module tb_swap;
+    reg clk;
+    reg [7:0] in_a, in_b;
+    wire [7:0] out_a_temp, out_b_temp;
+    wire [7:0] out_a_nbt, out_b_nbt;
+
+    // Instantiate both modules
+    swap_with_temp u1 (
+        .clk(clk),
+        .in_a(in_a),
+        .in_b(in_b),
+        .a(out_a_temp),
+        .b(out_b_temp)
+    );
+
+    swap_without_temp u2 (
+        .clk(clk),
+        .in_a(in_a),
+        .in_b(in_b),
+        .a(out_a_nbt),
+        .b(out_b_nbt)
+    );
+
+    
+    initial clk = 0;
+    always #5 clk = ~clk;
+
+    
+    initial begin
+        $display("Time\tWith Temp: a b\tWithout Temp: a b");
+        $monitor("%0t\t%d %d\t\t%d %d", $time, out_a_temp, out_b_temp, out_a_nbt, out_b_nbt);
+
+        
+        in_a = 8'd10;
+        in_b = 8'd20;
+
+        #10;  
+
+        in_a = 8'd30;
+        in_b = 8'd40;
+
+        #10;
+
+        in_a = 8'd50;
+        in_b = 8'd60;
+
+        #10; 
+
+        $finish;
+    end
+endmodule
