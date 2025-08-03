@@ -1,0 +1,43 @@
+module tb_flop_pos_ce;
+    reg clk, ce, d;
+    wire q;
+
+    // Instantiate DUT
+    flop_pos_ce dut (
+        .clk(clk),
+        .ce(ce),
+        .d(d),
+        .q(q)
+    );
+
+    // Clock Generation (Period = 10 time units)
+    initial begin
+        clk = 0;
+        forever #5 clk = ~clk;
+    end
+
+    // Stimulus Block
+    initial begin
+        // Initialize Inputs
+        ce = 0; d = 0;
+
+        // Test 1: Clock Enable Low - Output should not change
+        #10 d = 1; ce = 0;  
+        #10 d = 0; ce = 0;  
+
+        // Test 2: Clock Enable High - Output should follow D
+        #10 ce = 1; d = 1;  
+        #10 d = 0;          
+        #10 d = 1;          
+
+        // Test 3: Disable CE again - q should hold its value
+        #10 ce = 0; d = 0;  
+
+        #10 $finish;
+    end
+
+    
+    initial begin
+        $monitor("Time=%0t clk=%b ce=%b d=%b q=%b", $time, clk, ce, d, q);
+    end
+endmodule
