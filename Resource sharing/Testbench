@@ -1,0 +1,44 @@
+module tb_addsub;
+
+ 
+  reg  [7:0] a, b, c;
+  reg        oper;
+  wire [7:0] res;
+
+ 
+  addsub DUT (
+    .a(a),
+    .b(b),
+    .c(c),
+    .oper(oper),
+    .res(res)
+  );
+
+ 
+  initial begin
+    // Monitor output
+    $monitor("Time=%0d | a=%d, b=%d, c=%d, oper=%b -> res=%d", $time, a, b, c, oper, res);
+
+    
+    a = 8'd10; b = 8'd20; c = 8'd5; oper = 1'b0;
+    #10;
+
+  
+    a = 8'd30; b = 8'd15; c = 8'd10; oper = 1'b1;
+    #10;
+
+    
+    a = 8'd50; b = 8'd25; c = 8'd12; oper = 1'b0;
+    #10;
+
+  
+    a = 8'd100; b = 8'd40; c = 8'd30; oper = 1'b1;
+    #10;
+
+   
+    a = 8'd0; b = 8'd0; c = 8'd0; oper = 1'b0;
+    #10;
+
+    $finish;
+  end
+endmodule
