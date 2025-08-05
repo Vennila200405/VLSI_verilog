@@ -1,0 +1,73 @@
+module slave_fsm (
+    input wire clk,
+    input wire rst,
+    input wire start,
+    input wire [7:0] data_in,
+    output reg [7:0] data_out,
+    output reg ack
+);
+
+  
+    typedef enum reg [1:0] {
+        IDLE = 2'b00,
+        RECEIVE = 2'b01,
+        ACK = 2'b10,
+        WAIT = 2'b11
+    } state_t;
+
+    state_t current_state, next_state;
+
+    
+    always @(posedge clk or posedge rst) begin
+        if (rst)
+            current_state <= IDLE;
+        else
+            current_state <= next_state;
+    end
+
+  
+    always @(*) begin
+        case (current_state)
+            IDLE: begin
+                if (start)
+                    next_state = RECEIVE;
+                else
+                    next_state = IDLE;
+            end
+            RECEIVE: next_state = ACK;
+            ACK: next_state = WAIT;
+            WAIT: begin
+                if (!start)
+                    next_state = IDLE;
+                else
+                    next_state = WAIT;
+            end
+            default: next_state = IDLE;
+        endcase
+    end
+
+   
+    always @(posedge clk or posedge rst) begin
+        if (rst) begin
+            data_out <= 8'b0;
+            ack <= 0;
+        end else begin
+            case (current_state)
+                IDLE: begin
+                    ack <= 0;
+                    data_out <= 8'b0;
+                end
+                RECEIVE: begin
+                    data_out <= data_in;
+                end
+                ACK: begin
+                    ack <= 1;
+                end
+                WAIT: begin
+                    ack <= 0;
+                end
+            endcase
+        end
+    end
+
+endmodule
