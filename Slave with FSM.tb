@@ -1,0 +1,48 @@
+module tb_slave_fsm;
+
+    reg clk, rst, start;
+    reg [7:0] data_in;
+    wire [7:0] data_out;
+    wire ack;
+
+   
+    slave_fsm uut (
+        .clk(clk),
+        .rst(rst),
+        .start(start),
+        .data_in(data_in),
+        .data_out(data_out),
+        .ack(ack)
+    );
+
+    
+    always #5 clk = ~clk;
+
+    initial begin
+        $monitor("Time: %0d | Start: %b | Data In: %h | Data Out: %h | Ack: %b", 
+                  $time, start, data_in, data_out, ack);
+    end
+
+    initial begin
+    
+        clk = 0;
+        rst = 1;
+        start = 0;
+        data_in = 8'h00;
+
+      
+        #10 rst = 0;
+
+      
+        #10 start = 1; data_in = 8'hA5;
+        #10 start = 0;
+
+        // Another Data Transaction
+        #20 start = 1; data_in = 8'h3C;
+        #10 start = 0;
+
+        // End Simulation
+        #20 $finish;
+    end
+
+endmodule
