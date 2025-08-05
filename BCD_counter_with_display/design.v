@@ -1,15 +1,19 @@
 
-module bcd_counter (
+module bcd_counter_display (
     input  wire clk,
     input  wire rst,
-    output reg [3:0] bcd_out
+    output wire [6:0] seg
 );
-    always @(posedge clk or posedge rst) begin
-        if (rst)
-            bcd_out <= 4'b0000;
-        else if (bcd_out == 4'b1001)
-            bcd_out <= 4'b0000;
-        else
-            bcd_out <= bcd_out + 1;
-    end
+    wire [3:0] bcd_out;
+
+    bcd_counter counter (
+        .clk(clk),
+        .rst(rst),
+        .bcd_out(bcd_out)
+    );
+
+    bcd_to_7seg display (
+        .bcd_in(bcd_out),
+        .seg(seg)
+    );
 endmodule
