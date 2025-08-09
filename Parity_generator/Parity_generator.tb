@@ -1,18 +1,18 @@
-module parity_generator_tb;
-    reg [3:0] data_in;
-    wire even_parity, odd_parity;
-
-    even_parity_generator even_gen (.data_in(data_in), .parity_bit(even_parity));
-    odd_parity_generator  odd_gen  (.data_in(data_in), .parity_bit(odd_parity));
-
-    initial begin
-        $monitor("Data = %b | Even Parity = %b | Odd Parity = %b", data_in, even_parity, odd_parity);
+module tb_parity_generator_4bit;
+  reg [3:0] data;
+    wire even_parity;
+    wire odd_parity;
+  parity_generator_4bit uut (.data(data),.even_parity(even_parity),.odd_parity(odd_parity));
         
-        data_in = 4'b0000; #10;
-        data_in = 4'b0001; #10;
-        data_in = 4'b0011; #10;
-        data_in = 4'b0111; #10;
-        data_in = 4'b1111; #10;
+initial begin
+  $dumpfile("dump.vcd");
+  $dumpvars;
+  $monitor("data = %b, even_parity = %b,odd_parity = %b", data, even_parity, odd_parity);
+  data = 4'b0000; #10;
+  data = 4'b0001; #10;
+  data = 4'b0011; #10;
+  data = 4'b0111; #10;
+  data = 4'b1111; #10;
 
         $finish;
     end
