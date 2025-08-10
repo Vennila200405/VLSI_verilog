@@ -1,20 +1,21 @@
-module parity_checker_tb;
-    reg [3:0] data_in;
-    reg       parity_bit;
-    wire      even_ok, odd_ok;
-
-    even_parity_checker even_check (.data_in(data_in), .parity_bit(parity_bit), .parity_ok(even_ok));
-    odd_parity_checker  odd_check  (.data_in(data_in), .parity_bit(parity_bit), .parity_ok(odd_ok));
+module testbench;
+  reg  [7:0] data;
+  reg parity_bit;
+  wire parity_error;
+  parity_checker uut (
+        .data(data),
+        .parity_bit(parity_bit),
+    .parity_error(parity_error));
 
     initial begin
-       $monitor("Data=%b, Parity Bit=%b | Even OK=%b, Odd OK=%b", data_in, parity_bit, even_ok, odd_ok);
-
-        data_in = 4'b0000; parity_bit = 0; #10;  
-        data_in = 4'b0001; parity_bit = 1; #10;  
-        data_in = 4'b0011; parity_bit = 0; #10;  
-        data_in = 4'b1111; parity_bit = 0; #10;  
-        data_in = 4'b1010; parity_bit = 1; #10;  
-
-        $finish;
+      $dumpfile("dump.vcd");
+      $dumpvars;
+        $monitor("Time=%0t, data=%b, parity_bit=%b, parity_error=%b", $time, data, parity_bit, parity_error);
+      data = 8'b10101010; parity_bit = 1'b0; #10;
+      data = 8'b10101011; parity_bit = 1'b1; #10;  
+      data = 8'b11111111; parity_bit = 1'b0; #10;  
+      data = 8'b00000001; parity_bit = 1'b1; #10;  
+      data = 8'b00000001; parity_bit = 1'b0; #10;
+      $finish;
     end
 endmodule
