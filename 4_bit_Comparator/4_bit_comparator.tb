@@ -1,31 +1,21 @@
-module comparator_4bit_tb;
-    reg [3:0] A, B;
-    wire lt, eq, gt;
-
-    // Instantiate the 4-bit comparator
-    comparator_4bit DUT (
-        .A(A),
-        .B(B),
-        .lt(lt),
-        .eq(eq),
-        .gt(gt)
-    );
+module testbench;
+  reg  [3:0] a;
+  reg  [3:0] b;
+  wire a_gt_b;
+  wire a_eq_b;
+  wire a_lt_b;
+  comparator_4bit uut (.a(a),.b(b),.a_gt_b(a_gt_b),.a_eq_b(a_eq_b),.a_lt_b(a_lt_b));
 
     initial begin
-        $monitor("A = %b (%0d), B = %b (%0d) => LT = %b, EQ = %b, GT = %b", 
-                  A, A, B, B, lt, eq, gt);
-
-        // Apply test vectors
-        A = 4'b0000; B = 4'b0000; #10;  // Equal
-        A = 4'b0001; B = 4'b0010; #10;  // A < B
-        A = 4'b0100; B = 4'b0011; #10;  // A > B
-        A = 4'b1111; B = 4'b0000; #10;  // A > B
-        A = 4'b0111; B = 4'b1111; #10;  // A < B
-        A = 4'b1010; B = 4'b1010; #10;  // Equal
-        A = 4'b1001; B = 4'b1010; #10;  // A < B
-        A = 4'b1111; B = 4'b1111; #10;  // Equal
+      $dumpfile("dump.vcd");
+      $dumpvars;
+      $monitor("Time=%0t a=%b b=%b a_gt_b=%b a_eq_b=%b a_lt_b=%b", $time, a, b, a_gt_b, a_eq_b, a_lt_b);
+      a = 4'b0101; b = 4'b0011; #10;
+      a = 4'b1001; b = 4'b1001; #10;
+      a = 4'b0000; b = 4'b1111; #10;
+      a = 4'b1010; b = 4'b1100; #10;
 
         $finish;
     end
-endmodule
 
+endmodule
