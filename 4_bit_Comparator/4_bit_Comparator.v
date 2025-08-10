@@ -1,9 +1,10 @@
-module comparator_2bit (
-    input  [1:0] A,
-    input  [1:0] B,
-    output       lt, eq, gt
-);
-    assign lt = (A < B);
-    assign eq = (A == B);
-    assign gt = (A > B);
+module comparator_4bit (
+  input  [3:0] a,
+  input  [3:0] b,
+  output a_gt_b,
+  output a_eq_b,
+  output a_lt_b);
+  assign a_gt_b = (a > b);
+  assign a_eq_b = (a == b);
+  assign a_lt_b = (a < b);
 endmodule
