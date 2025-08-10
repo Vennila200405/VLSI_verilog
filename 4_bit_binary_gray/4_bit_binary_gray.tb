@@ -1,26 +1,22 @@
 module binary_to_gray_tb;
-    reg [3:0] binary_in;
-    wire [3:0] gray_out;
-
-    binary_to_gray DUT (
-        .binary_in(binary_in),
-        .gray_out(gray_out)
-    );
+  reg [3:0] binary_in;
+  wire [3:0] gray_out;
+  binary_to_gray DUT (.binary_in(binary_in),.gray_out(gray_out));
 
     initial begin
+      $dumpfile("dump.vcd");
+      $dumpvars;
         $monitor("Binary = %b | Gray = %b", binary_in, gray_out);
-
-        binary_in = 4'b0000; #10;
-        binary_in = 4'b0001; #10;
-        binary_in = 4'b0010; #10;
-        binary_in = 4'b0011; #10;
-        binary_in = 4'b0100; #10;
-        binary_in = 4'b0101; #10;
-        binary_in = 4'b0110; #10;
-        binary_in = 4'b0111; #10;
-        binary_in = 4'b1000; #10;
-        binary_in = 4'b1111; #10;
-
-        $finish;
+      binary_in = 4'b0000; #10;
+      binary_in = 4'b0001; #10;
+      binary_in = 4'b0010; #10;
+      binary_in = 4'b0011; #10;
+      binary_in = 4'b0100; #10;
+      binary_in = 4'b0101; #10;
+      binary_in = 4'b0110; #10;
+      binary_in = 4'b0111; #10;
+      binary_in = 4'b1000; #10;
+      binary_in = 4'b1111; #10;
+      $finish;
     end
 endmodule
