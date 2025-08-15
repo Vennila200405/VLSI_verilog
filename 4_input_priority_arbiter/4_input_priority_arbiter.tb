@@ -1,24 +1,22 @@
+`timescale 1ns/1ps
 module tb_priority_arbiter_4bit;
-    reg [3:0] req;
-    wire [3:0] grant;
+  reg [3:0] req;
+  wire [3:0] grant;
+  priority_arbiter_4bit uut (.req(req),.grant(grant));
 
-    priority_arbiter_4bit uut (
-        .req(req),
-        .grant(grant)
-    );
-
-    initial begin
-        $monitor("req = %b => grant = %b", req, grant);
-
-        
-        req = 4'b0000; #10;
-        req = 4'b0001; #10; // Only req[0]
-        req = 4'b0011; #10; // req[1] has higher priority than req[0]
-        req = 4'b0111; #10; // req[2] has highest among 2,1,0
-        req = 4'b1111; #10; // req[3] wins
-        req = 4'b1000; #10; // Only req[3]
-        req = 4'b0100; #10; // Only req[2]
-
-        $finish;
-    end
+initial begin
+  $dumpfile("dump.vcd");
+  $dumpvars;
+  $monitor("Time=%0t req=%b -> grant=%b", $time, req, grant);
+  
+  req = 4'b0000; #10;
+  req = 4'b0001; #10;
+  req = 4'b0010; #10;
+  req = 4'b0100; #10;
+  req = 4'b1000; #10;
+  req = 4'b1100; #10;
+  req = 4'b1010; #10;
+  req = 4'b0111; #10;
+  $finish;
+end
 endmodule
