@@ -1,11 +1,13 @@
 module priority_arbiter_4bit(
-  input  wire [3:0] req,     
-  output wire [3:0] grant    
-
-
-assign grant[3] = req[3];
-assign grant[2] = ~req[3] & req[2];
-assign grant[1] = ~req[3] & ~req[2] & req[1];
-assign grant[0] = ~req[3] & ~req[2] & ~req[1] & req[0];
-
-endmodule
+  input  [3:0] req,  
+  output reg [3:0] grant);
+  always @(*) begin
+    casez (req)  
+      4'b1???: grant = 4'b1000; 
+      4'b01??: grant = 4'b0100;
+      4'b001?: grant = 4'b0010; 
+      4'b0001: grant = 4'b0001; 
+      default: grant = 4'b0000; 
+    endcase
+  end
+  endmodule
