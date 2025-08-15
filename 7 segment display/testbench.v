@@ -1,30 +1,25 @@
+
+`timescale 1ns/1ps
 module tb_seven_segment_decoder;
+  reg  [3:0] bcd;
+  wire [6:0] seg;
+seven_segment_decoder uut (.bcd(bcd),.seg(seg));
 
-    reg [3:0] bcd;
-    wire [6:0] seg;
-
-    
-    seven_segment_decoder DUT (
-        .bcd(bcd),
-        .seg(seg)
-    );
-
-    integer i;
-
-    initial begin
-        $display("Time | BCD | Segments (a-g)");
-        $monitor("%0t | %b  | %b", $time, bcd, seg);
-
-      
-        for (i = 0; i < 10; i = i + 1) begin
-            bcd = i;
-            #10;
-        end
-
-   
-        #10;
-
-        $finish;
-    end
+initial begin
+  $dumpfile("dump.vcd");
+  $dumpvars;
+  $monitor("Time=%0t  BCD=%d (%b) -> seg=%b", $time, bcd, bcd, seg);
+  bcd = 4'd0; #10;
+  bcd = 4'd1; #10;
+  bcd = 4'd2; #10;
+  bcd = 4'd3; #10;
+  bcd = 4'd4; #10;
+  bcd = 4'd5; #10;
+  bcd = 4'd6; #10;
+  bcd = 4'd7; #10;
+  bcd = 4'd8; #10;
+  bcd = 4'd9; #10;
+  $finish;
+end
 
 endmodule
